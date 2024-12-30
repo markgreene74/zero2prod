@@ -1,0 +1,25 @@
+exclude: ^(profiling/|tests/data/)
+
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+    -   id: check-added-large-files
+    -   id: check-executables-have-shebangs
+    -   id: check-shebang-scripts-are-executable
+    -   id: check-merge-conflict
+    -   id: check-yaml
+    -   id: detect-private-key
+    -   id: end-of-file-fixer
+    -   id: mixed-line-ending
+    -   id: trailing-whitespace
+
+-   repo: local
+    hooks:
+    -   id: rustfmt
+        name: rustfmt
+        description: Check if all files follow the rustfmt style
+        entry: rustfmt --check --color always --files-with-diff
+        language: system
+        pass_filenames: true
+        files: ^.*\.rs$
