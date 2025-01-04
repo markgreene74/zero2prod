@@ -21,6 +21,6 @@ async fn health_check_works() {
 }
 
 fn spawn_app() {
-    let server = run().expect("Failed to bind address");
+    let server = run("127.0.0.1:8080").expect("Failed to bind address");
     let _ = actix_web::rt::spawn(server);
 }
