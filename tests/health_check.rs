@@ -23,6 +23,58 @@ async fn health_check_works() {
     assert_eq!(Some(2), response.content_length());
 }
 
+#[actix_web::test]
+async fn query_returns_200_for_valid_data() {
+    // start the application
+    let address = spawn_app();
+
+    // send the request
+    let client = reqwest::Client::new();
+    let body = "name=joe%20miller&in=the%20expanse";
+    let response = client
+        .post(&format!("{}/query", &address))
+        .header("Content-Type", "application/x-www-form-urlencoded")
+        .body(body)
+        .send()
+        .await
+        .expect("Failed to execute request.");
+
+    // asserts
+    assert_eq!(200, response.status().as_u16());
+}
+
+#[actix_web::test]
+async fn query_returns_400_for_invalid_data() {
+    // start the application
+    let address = spawn_app();
+
+    // send the requests
+    let client = reqwest::Client::new();
+    let test_cases = vec![
+        ("name=joe%20miller", "missing the film or show"),
+        ("in=the%20expanse", "missing the character name"),
+        ("", "missing both character name and film or show"),
+    ];
+
+    for (invalid_body, error_message) in test_cases {
+        let response = client
+            .post(&format!("{}/query", &address))
+            .header("Content-Type", "application/x-www-form-urlencoded")
+            .body(invalid_body)
+            .send()
+            .await
+            .expect("Failed to execute request.");
+
+        // asserts
+        assert_eq!(
+            400,
+            response.status().as_u16(),
+            "The API did not fail with 400 Bad Request when the payload was {}.",
+            error_message
+        );
+    }
+}
+
 // helpers
 
 fn spawn_app() -> String {
