@@ -1,5 +1,11 @@
 # zero2prod
-My repository for Zero To Production in Rust
+My repository for '[Zero To Production In Rust](https://www.zero2prod.com/)'.
+
+## Things that I am doing differently from the book
+
+### Don't use Tokio
+
+No particular reason. I just wanted to see if I could get away with one less dependency (`tokio`), and so far (Chapter 3) looks like it's possible.
 
 ## References and useful links
 
