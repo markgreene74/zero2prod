@@ -75,6 +75,13 @@ async fn query_returns_400_for_invalid_data() {
     }
 }
 
+#[cfg(not(target_os = "macos"))]
+#[test]
+fn dummy_db_test() {
+    // this should be executed only when running in docker
+    // or never executed when running locally on macOS
+}
+
 // helpers
 
 fn spawn_app() -> String {
