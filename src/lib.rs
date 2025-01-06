@@ -17,8 +17,8 @@ async fn health_check() -> impl Responder {
 }
 
 #[post("/query")]
-async fn query(_form: web::Form<FormData>) -> impl Responder {
-    let response = "This is the response to /query"
+async fn query(form: web::Form<FormData>) -> impl Responder {
+    let response = format!("name: {}, media: {}", form.name, form.media)
         .customize()
         .with_status(StatusCode::OK);
     response
