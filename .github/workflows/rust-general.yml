@@ -1,4 +1,4 @@
-name: "Rust fmt and linting"
+name: "Rust test, fmt and linting"
 
 on:
   push:
