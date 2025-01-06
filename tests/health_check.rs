@@ -30,7 +30,7 @@ async fn query_returns_200_for_valid_data() {
 
     // send the request
     let client = reqwest::Client::new();
-    let body = "name=joe%20miller&in=the%20expanse";
+    let body = "name=joe%20miller&media=the%20expanse";
     let response = client
         .post(&format!("{}/query", &address))
         .header("Content-Type", "application/x-www-form-urlencoded")
@@ -51,9 +51,9 @@ async fn query_returns_400_for_invalid_data() {
     // send the requests
     let client = reqwest::Client::new();
     let test_cases = vec![
-        ("name=joe%20miller", "missing the film or show"),
-        ("in=the%20expanse", "missing the character name"),
-        ("", "missing both character name and film or show"),
+        ("name=joe%20miller", "missing the media (film or show)"),
+        ("media=the%20expanse", "missing the character name"),
+        ("", "missing both character name and media (film or show)"),
     ];
 
     for (invalid_body, error_message) in test_cases {
