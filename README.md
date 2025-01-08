@@ -19,3 +19,4 @@ Instead of creating an application to manage newsletter subscriptions we are bui
 - [GitHub - Actix Web](https://github.com/actix/actix-web)
 - [GitHub - Actix Web Examples](https://github.com/actix/examples)
 - [GitHub - Serde](https://github.com/serde-rs/serde)
+- [IMDb Non-Commercial Datasets](https://datasets.imdbws.com/)
