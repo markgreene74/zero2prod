@@ -11,7 +11,7 @@ No particular reason. I just wanted to see if I could get away with one less dep
 
 Again, no particular reason apart from personal preference and trying to introduce some changes (i.e., do not copy&paste the book).
 
-Instead of creating an application to manage newsletter subscriptions we are building a basic implementation of `[whistab](https://github.com/markgreene74/whistab)`. Given the name of character in a film, I want to know where else I might have seen the actor (i.e., which other films or TV series).
+Instead of creating an application to manage newsletter subscriptions we are building a basic implementation of [`whistab`](https://github.com/markgreene74/whistab). Given the name of character in a film, I want to know where else I might have seen the actor (i.e., which other films or TV series).
 
 ## References and useful links
 
