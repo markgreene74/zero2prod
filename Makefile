@@ -18,7 +18,7 @@ db-download-data:
 		-o /tmp/title.principals.tsv.gz && \
 	 gzip -d /tmp/title.principals.tsv.gz && \
 	 head -n 10000 /tmp/title.principals.tsv | tee ./data/title.principals.tsv && \
-	 rm /tmp/title.principals.tsv.gz
+	 rm /tmp/title.principals.tsv
 
 .PHONY: db-ingest-data
 db-ingest-data:
