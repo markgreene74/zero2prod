@@ -18,7 +18,6 @@ db-create-tables:
 # download title.basics.tsv
 .PHONY: db-download-title-basics
 db-download-title-basics:
-	exit 0; \
 	curl https://datasets.imdbws.com/title.basics.tsv.gz \
 		-o ./data/title.basics.tsv.gz && \
 	 gzip -d ./data/title.basics.tsv.gz
@@ -32,7 +31,6 @@ db-fix-title-basics:
 # and finally remove the tsv file
 .PHONY: db-ingest-title-basics
 db-ingest-title-basics:
-	exit 0; \
 	docker exec -it zero2prod-db-1 \
 		psql -U postgres -f /var/tmp/data-ingestion/ingest-title-basics.sql && \
 	rm ./data/title.basics.tsv
@@ -40,33 +38,39 @@ db-ingest-title-basics:
 # download name.basics.tsv
 .PHONY: db-download-name-basics
 db-download-name-basics:
-	exit 0; \
 	curl https://datasets.imdbws.com/name.basics.tsv.gz \
 		-o ./data/name.basics.tsv.gz && \
 	 gzip -d ./data/name.basics.tsv.gz
+
+# fix name.basics.tsv
+.PHONY: db-fix-name-basics
+db-fix-name-basics:
+	sed -i "s/\"/'/g" ./data/name.basics.tsv
 
 # ingest name.basics.tsv, clean up the table afterwards
 # and finally remove the tsv file
 .PHONY: db-ingest-name-basics
 db-ingest-name-basics:
-	exit 0; \
 	docker exec -it zero2prod-db-1 \
 		psql -U postgres -f /var/tmp/data-ingestion/ingest-name-basics.sql && \
 	rm ./data/name.basics.tsv
 
 # download title.principals.tsv.gz
-.PHONY: db-download-title-principal
-db-download-title-principal:
-	exit 0; \
+.PHONY: db-download-title-principals
+db-download-title-principals:
 	curl https://datasets.imdbws.com/title.principals.tsv.gz \
 		-o ./data/title.principals.tsv.gz && \
 	 gzip -d ./data/title.principals.tsv.gz
 
+# fix title.principals.tsv
+.PHONY: db-fix-title-principals
+db-fix-title-principals:
+	sed -i "s/\"/'/g" ./data/title.principals.tsv
+
 # ingest title.principals.tsv, clean up the table afterwards
 # and finally remove the tsv file
-.PHONY: db-ingest-title-principal
-db-ingest-title-principal:
-	exit 0; \
+.PHONY: db-ingest-title-principals
+db-ingest-title-principals:
 	docker exec -it zero2prod-db-1 \
 		psql -U postgres -f /var/tmp/data-ingestion/ingest-title-principal.sql && \
 	rm ./data/title.principals.tsv
@@ -74,8 +78,8 @@ db-ingest-title-principal:
 .PHONY: db-ingest-data
 db-ingest-data: db-create-tables \
 		db-download-title-basics db-fix-title-basics db-ingest-title-basics \
-		db-download-name-basics db-ingest-name-basics \
-		db-download-title-principal db-ingest-title-principal
+		db-download-name-basics db-fix-name-basics db-ingest-name-basics \
+		db-download-title-principals db-fix-title-principals db-ingest-title-principals
 
 .PHONY: db-clean-up
 db-clean-up:
