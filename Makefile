@@ -1,13 +1,26 @@
-.PHONY: curl-health-check
-curl-health-check:
-	curl -v http://127.0.0.1:8080/health_check; echo
+#############################################################
+# start/stop using docker compose
+#############################################################
 
-.PHONY: curl-test-query
-curl-test-query:
-	curl -v -X POST \
-		-H "Content-Type: application/x-www-form-urlencoded" \
-		-d "name=joe%20miller&media=the%20expanse" \
-		http://127.0.0.1:8080/query; echo
+.PHONY: docker-app-start
+docker-app-start:
+	docker compose --profile default up -d
+
+.PHONY: docker-app-stop
+docker-app-stop:
+	docker compose --profile default down
+
+.PHONY: docker-db-standalone-start
+docker-db-standalone-start:
+	docker compose --profile db-standalone up -d
+
+.PHONY: docker-db-standalone-stop
+docker-db-standalone-stop:
+	docker compose --profile db-standalone down
+
+#############################################################
+# db management and data ingestion
+#############################################################
 
 # create tables on the database
 .PHONY: db-create-tables
@@ -85,3 +98,18 @@ db-ingest-data: db-create-tables \
 db-clean-up:
 	docker exec -it zero2prod-db-1 \
 		psql -U postgres -f /var/tmp/data-ingestion/clean-up.sql
+
+#############################################################
+# test the application with curl
+#############################################################
+
+.PHONY: curl-health-check
+curl-health-check:
+	curl -v http://127.0.0.1:8080/health_check; echo
+
+.PHONY: curl-test-query
+curl-test-query:
+	curl -v -X POST \
+		-H "Content-Type: application/x-www-form-urlencoded" \
+		-d "name=joe%20miller&media=the%20expanse" \
+		http://127.0.0.1:8080/query; echo

@@ -1,6 +1,28 @@
 # zero2prod
 My repository for '[Zero To Production In Rust](https://www.zero2prod.com/)'.
 
+- [Quickstart](#quickstart)
+- [Things that I am doing differently from the book](#things-that-i-am-doing-differently-from-the-book)
+- [Loading the data in Postgres](#loading-the-data-in-postgres)
+- [References and useful links](#references-and-useful-links)
+
+## Quickstart
+
+Use `make <TAB><TAB>` to see what commands are available.
+
+- Start the containers (application + db)
+```shell
+make docker-app-start
+```
+- Populate the data (pop the kettle on, this may take a while)
+```shell
+make db-ingest-data
+```
+- Test the application with `curl`
+```shell
+make curl-test-query
+```
+
 ## Things that I am doing differently from the book
 
 ### Don't use Tokio
